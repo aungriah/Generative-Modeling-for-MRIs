@@ -22,7 +22,7 @@ python train.py
 Intermediate weights and inference results will be saved at the locations specified.
 
 #### Testing
-The script introVAE/test.py will (i) select a number of images from a specified dataset and reconstruct them, (ii) interpolate MR brain images between pairs of selected images, and (iii) randomly sample from a gaussian distribution to generate artificial MR brain images with the network's encoder.
+The script */introVAE/test.py* will (i) select a number of images from a specified dataset and reconstruct them, (ii) interpolate MR brain images between pairs of selected images, and (iii) randomly sample from a gaussian distribution to generate artificial MR brain images with the network's decoder.
 
 Speecify the path to the .npy containing images in line 221 and the path to your pretrained weights in line 53 for testing:
 
@@ -33,7 +33,7 @@ python test.py
 ### Style-GAN
 
 #### Training
-Set the hyperparameters for training in lines 9-19 of */styleGAN/train.py* for training:
+Set the hyperparameters for training in lines 9-19 of */styleGAN/train.py*
 ```
 cd styleGAN
 python train.py
