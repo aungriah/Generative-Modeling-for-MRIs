@@ -14,7 +14,7 @@ This code requires all training images to be of dimension (128x128x1) and to be 
 ### Introspective Variational Autoencoder
 
 #### Training
-Set the hyperparameters for training in lines 19-62 of */introVAE/train.py* to train thee neetwork:
+Set the hyperparameters for training in lines 19-62 of */introVAE/train.py* to train the network:
 ```
 cd introVAE
 python train.py
@@ -24,7 +24,7 @@ Intermediate weights and inference results will be saved at the locations specif
 #### Testing
 The script introVAE/test.py will (i) select a number of images from a specified dataset and reconstruct them, (ii) interpolate MR brain images between pairs of selected images, and (iii) randomly sample from a gaussian distribution to generate artificial MR brain images with the network's encoder.
 
-Speecify the path to the .npy containing images in line 221 and the path to your pretrained weights in line 53.
+Speecify the path to the .npy containing images in line 221 and the path to your pretrained weights in line 53 for testing:
 
 ```
 cd introVAE
@@ -33,7 +33,7 @@ python test.py
 ### Style-GAN
 
 #### Training
-Set the hyperparameters for training in lines 9-19 of */styleGAN/train.py*
+Set the hyperparameters for training in lines 9-19 of */styleGAN/train.py* for training:
 ```
 cd styleGAN
 python train.py
@@ -41,7 +41,7 @@ python train.py
 Intermediate weights and inference results will be saved at the locations specified
 
 #### Testing
-The script */styleGAN/test.py* generates artifical MR brain images and saves them to an .npy file. Make sure to specify the path to your pretrained weights in line 18
+The script */styleGAN/test.py* generates artifical MR brain images and saves them to an .npy file. Make sure to specify the path to your pretrained weights in line 18 to test:
 
 ```
 cd styleGAN
