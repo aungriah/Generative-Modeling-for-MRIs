@@ -1,4 +1,4 @@
-###Realistic Generation of Diffusion-Weighted Magnetic Resonance Brain Images with Deep Generative Models
+### Realistic Generation of Diffusion-Weighted Magnetic Resonance Brain Images with Deep Generative Models
 
 This repository includes the official implemntation for *"Realistic Generation of Diffusion-Weighted Magnetic Resonance Brain Images with Deep Generative Models"*.
 
@@ -8,6 +8,6 @@ The code presented in this network is heavily based on [bbeatrix's](https://gith
 ### Training
 
 #### Introspective Variational Autoencoder
-```console
+```
 main.py
 ```
