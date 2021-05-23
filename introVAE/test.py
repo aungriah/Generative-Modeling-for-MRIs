@@ -8,14 +8,7 @@ from keras.models import Model
 import os, sys, time
 from collections import OrderedDict
 
-import model, losses, utils, data #, params
-
-
-
-#
-# Config
-#
-
+import model, losses, utils, data
 
 ####################################################################################################
 ####################################################################################################
@@ -28,30 +21,17 @@ args_color = False
 args_train_size = 20000
 args_test_size = 2484
 args_shape = 128,128
-#parser.add_argument('--dataset', dest="dataset", default="celeba-128x128", type=str, help="Dataset (possible values: celeba-128x128)")
-#parser.add_argument('--datasets_dir', dest="datasets_dir", default="datasets", type=str, help="Location of datasets.")
-#parser.add_argument('--color', dest="color", default=True, type=str2bool, help="Color (True/False)")
-#parser.add_argument('--train_size', dest="train_size", type=int, default=29000, help="Train set size.")
-#parser.add_argument('--test_size', dest="test_size", type=int, default=1000, help="Test set size.")
-#parser.add_argument('--shape', dest="shape", default="128,128", help="Image shape.")
 
 # model hyperparameters
 args_m = 110
 args_alpha = 0.25
 args_beta = 2.5
-#parser.add_argument('--m', dest="m", type=int, default=120, help="Value of model hyperparameter m.")
-#parser.add_argument('--alpha', dest="alpha", type=float, default=0.25, help="Value of model hyperparameter alpha.")
-#parser.add_argument('--beta', dest="beta", type=float, default=0.05, help="Value of model hyperparameter beta.")
 
 # training
 args_lr = 0.0002
 args_batch_size = 8
 args_nb_epoch = 200
 args_verbose = 1
-#parser.add_argument('--lr', dest="lr", default="0.001", type=float, help="Learning rate for the optimizer.")
-#parser.add_argument('--batch_size', dest="batch_size", default=200, type=int, help="Batch size.")
-#parser.add_argument('--nb_epoch', dest="nb_epoch", type=int, default=200, help="Number of epochs.")
-#parser.add_argument('--verbose', dest="verbose", type=int, default=2, help="Logging verbosity: 0-silent, 1-verbose, 2-perEpoch (default).")
 
 # architecture
 args_sampling = True
@@ -59,52 +39,33 @@ args_sampling_std = -1.0
 args_latent_dim = 256
 args_base_filter_num = 16
 args_resnet_wideness = 1
-#parser.add_argument('--sampling', dest="sampling", type=str2bool, default=True, help="Use sampling.")
-#parser.add_argument('--sampling_std', dest="sampling_std", type=float, default=-1.0, help="Sampling std, if < 0, then we learn std.")
-#parser.add_argument('--latent_dim', dest="latent_dim", type=int, default=3, help="Latent dimension.")
-#parser.add_argument('--base_filter_num', dest="base_filter_num", default=32, type=int, help="Initial number of filter in the conv model.")
-#parser.add_argument('--resnet_wideness', dest="resnet_wideness", default=1, help="Wideness of resnet model (1-wide first block has 16 filters).")
 
 # encoder
 args_encoder_use_bn = True
 args_encoder_wd = 0.0
-#parser.add_argument('--encoder_use_bn', dest="encoder_use_bn", type=str2bool, default=False, help="Use batch normalization in encoder.")
-#parser.add_argument('--encoder_wd', dest="encoder_wd", type=float, default=0.0, help="Weight decay param for the encoder.")
 
 # generator
 args_generator_use_bn = True
 args_generator_wd = 0.0
-#parser.add_argument('--generator_use_bn', dest="generator_use_bn", type=str2bool, default=False, help="Use batch normalization in generator.")
-#parser.add_argument('--generator_wd', dest="generator_wd", type=float, default=0.0, help="Weight decay param for generator.")
 
 # locations
-args_prefix = 'model/pictures4'
-args_model_path = 'trained_models/models/model9'
-#args_model_path = 'trained_models/first_try/best_so_far'
+args_prefix = 'model/pictures_inference'
+args_model_path = 'trained_models/models/bestmodel'
+#args_model_path = 'trained_models/best_model'
 
-#parser.add_argument('--prefix', dest="prefix", default="trash", help="File prefix for the output visualizations and models.")
-#parser.add_argument('--model_path', dest="model_path", default=None, help="Path to saved networks. If None, build networks from scratch.")
 
 # micellaneous
 args_memory_share = 0.95
 args_frequency = 100
 args_save_latent = True
 args_latent_cloud_size = 10000
-#parser.add_argument('--memory_share', dest="memory_share", type=float, default=0.95, help="Fraction of memory that can be allocated to this process.")
-#parser.add_argument('--frequency', dest="frequency", type=int, default=20, help="Image saving frequency.")
-#parser.add_argument('--save_latent', dest="save_latent", type=str2bool, default=False, help="If True, then save latent pointcloud.")
-#parser.add_argument('--latent_cloud_size', dest="latent_cloud_size", type=int, default=10000, help="Size of latent cloud.")
-
-
-####################################################################################################
-####################################################################################################
-####################################################################################################
-
-#args = params.getArgs()
-#print(args)
 
 # set random seed
 np.random.seed(10)
+####################################################################################################
+####################################################################################################
+####################################################################################################
+
 
 print('Keras version: ', keras.__version__)
 print('Tensorflow version: ', tf.__version__)
@@ -124,7 +85,7 @@ def interpolate(steps,z1,z2):
         z = z1 + (i+1)*diff
         z = np,expan_dims(z,axis=0)
         z1 = np.concatenate((z1,z),axis = 0)
-    return z1 
+    return z1
 
 
 
@@ -331,7 +292,7 @@ with tf.Session() as session:
 
     x = session.run(train_next)
     print(x.shape)
-    pics = np.load('/Users/aungriah/Documents/ETH/Semester Project/GoodData/normal_brians.npy')
+    pics = np.load('/data/normal_brains.npy')
     pics = np.expand_dims(pics,axis=1)
 
     x = pics[:16]
@@ -355,16 +316,10 @@ with tf.Session() as session:
     n_x = 5
     n_y = 64 // n_x
     print('Save original images.')
-    utils.plot_images(np.transpose(x, (0, 2, 3, 1)), n_x, n_y, "origin", text=None)
+    utils.plot_images(np.transpose(x, (0, 2, 3, 1)), n_x, n_y, "original_images", text=None)
     print('Save generated images.')
-    utils.plot_images(np.transpose(x_p, (0, 2, 3, 1)), n_x, n_y, "sampled", text=None)
+    utils.plot_images(np.transpose(x_p, (0, 2, 3, 1)), n_x, n_y, "sampled_images", text=None)
     print('Save reconstructed images.')
-    utils.plot_images(np.transpose(recon, (0, 2, 3, 1)), n_x, n_y, "reconstruction", text=None)   
+    utils.plot_images(np.transpose(recon, (0, 2, 3, 1)), n_x, n_y, "reconstructed_images", text=None)
     print('Save interpolated images.')
-    utils.plot_images(np.transpose(np.concatenate((interp1,interp2),axis=0), (0, 2, 3, 1)), n_x, n_y, "interpolation", text=None)
-
-
-
-
-
-
+    utils.plot_images(np.transpose(np.concatenate((interp1,interp2),axis=0), (0, 2, 3, 1)), n_x, n_y, "interpolated_images", text=None)
